@@ -76,3 +76,5 @@ tBodyGyroJerkMean
 	6. 'Freq' replaced with 'Frequency'
 	7. '^t' replaced with 'time'
 	8. '^f' replaced with 'FFT'
+
+* For the first two columns: 'SubjectNum' is the name of the subject and 'Activity' is the name of the activity
