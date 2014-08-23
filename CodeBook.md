@@ -1,41 +1,78 @@
-## The Code Book
+### The Code Book
 
-### This describes the variables and transformations that I performed to clean up the provided data and obtain TidyData2.txt
+This explains the raw variables and processes to tidy up the varialbes. 
+
+## Raw variables
+
+The features selected for this database come from the accelerometer and gyroscope 3-axial raw signals tAcc-XYZ and tGyro-XYZ. These time domain signals (prefix 't' to denote time) were captured at a constant rate of 50 Hz. Then they were filtered using a median filter and a 3rd order low pass Butterworth filter with a corner frequency of 20 Hz to remove noise. Similarly, the acceleration signal was then separated into body and gravity acceleration signals (tBodyAcc-XYZ and tGravityAcc-XYZ) using another low pass Butterworth filter with a corner frequency of 0.3 Hz. 
+
+Subsequently, the body linear acceleration and angular velocity were derived in time to obtain Jerk signals (tBodyAccJerk-XYZ and tBodyGyroJerk-XYZ). Also the magnitude of these three-dimensional signals were calculated using the Euclidean norm (tBodyAccMag, tGravityAccMag, tBodyAccJerkMag, tBodyGyroMag, tBodyGyroJerkMag). 
+
+Finally a Fast Fourier Transform (FFT) was applied to some of these signals producing fBodyAcc-XYZ, fBodyAccJerk-XYZ, fBodyGyro-XYZ, fBodyAccJerkMag, fBodyGyroMag, fBodyGyroJerkMag. (Note the 'f' to indicate frequency domain signals). 
+
+These signals were used to estimate variables of the feature vector for each pattern:  
+'-XYZ' is used to denote 3-axial signals in the X, Y and Z directions.
+
+tBodyAcc-XYZ
+tGravityAcc-XYZ
+tBodyAccJerk-XYZ
+tBodyGyro-XYZ
+tBodyGyroJerk-XYZ
+tBodyAccMag
+tGravityAccMag
+tBodyAccJerkMag
+tBodyGyroMag
+tBodyGyroJerkMag
+fBodyAcc-XYZ
+fBodyAccJerk-XYZ
+fBodyGyro-XYZ
+fBodyAccMag
+fBodyAccJerkMag
+fBodyGyroMag
+fBodyGyroJerkMag
+
+The set of variables that were estimated from these signals are: 
+
+mean(): Mean value
+std(): Standard deviation
+mad(): Median absolute deviation 
+max(): Largest value in array
+min(): Smallest value in array
+sma(): Signal magnitude area
+energy(): Energy measure. Sum of the squares divided by the number of values. 
+iqr(): Interquartile range 
+entropy(): Signal entropy
+arCoeff(): Autorregresion coefficients with Burg order equal to 4
+correlation(): correlation coefficient between two signals
+maxInds(): index of the frequency component with largest magnitude
+meanFreq(): Weighted average of the frequency components to obtain a mean frequency
+skewness(): skewness of the frequency domain signal 
+kurtosis(): kurtosis of the frequency domain signal 
+bandsEnergy(): Energy of a frequency interval within the 64 bins of the FFT of each window.
+angle(): Angle between to vectors.
+
+Additional vectors obtained by averaging the signals in a signal window sample. These are used on the angle() variable:
+
+gravityMean
+tBodyAccMean
+tBodyAccJerkMean
+tBodyGyroMean
+tBodyGyroJerkMean
 
 
+## Variables in the final data set 'TidySet2.txt'
+* The training and test sets were combined to produce a total of 10299 observations.
 
-* Change the working directory to the directory containing the files activity_labels.txt, features.txt, etc
-* Read all the text files into appropriate frames or list:
+* Only the features with mean() or std() were retained. The rest were discarded.
 
-	1. activity_labels is a vector of 6 strings, which are the 6 activity names
-	2. featurenames is a vector of 561 strings, which are all the features' names
-	3. test_subjectnames is a frame of 2947 observations. This lists the names of the subjects in each observation (test case)
-	4. test_activities is a frame of 2947 observations, listing the activities performed in each observation (test case)
-	5. test_featurevalues is the values of all the features in the test case
-	6. train_subjectnames is a frame of 7352 observations.This lists the names of the subjects in each observation (train case)
-	7. train_activities is a frame of 2947 observations, listing the activities performed in each observation (train case)
-	8. train_featurevalues is the values of all the features in the training case
+* For each of these features, the average value was calculated for each combination of SubjectNum and Acitivity. There are 30 subjects and 6 activities, giving a total of 180 combinations.
 
-
-* Change the levels of test_activities and train_activities to the actual activity names instead of numbers
-
-* Make testframe and trainframe, frames of 2947 and 7352 observations, respectively, corresponding to the test cases and training cases. They both contain the following columns: SubjectNum (Number of Subject), Activity (activity performed), and all the features in featurenames.
-
-* total frame is the combination of testframe and trainframe, using rbind.
-
-* good_cols is a [TRUE/FALSE] vector of length 563 which identifies the 'good' columns: the first two columns, together with columns containing strings "std" or "mean"
-
-* goodframe is the filtered result after selecting only the 'good' columns 
-
-* After that I replaced the column names in goodframe to make them descriptive. For the purpose of this project, 'descriptive' names is taken to mean: no abbreviation, no whitespace or punctuation such as () or -. Due to the long names of the columns, capital letter is used for each word to improve readability. For example, 'timeBodyAccelerationJerkStandardDeviationZ' instead of 'timebodyaccelerationjerkstandarddeviationZ' (the second case is much harder to read).
-
-* The data set is melted according to the combination of the SubjectNum and Activity. This produces the 'melted' frame
-
-* It is then recast to show the mean of all variables (features) for each combination of SubjectNum and Activity. Since there are 30 subjects and 6 activities, the final 'casted' frame contains 30 x 6 = 180 rows.
-
-* This final data set is tidy because:
-	1. Each variable is in one column. There is a column for each of the variables that I selected (variables containing 'mean' or 'std'.)
-	2. Each 'observation' is in a different row. Here, an 'observation' is just a combination of the SubjectNum and Activity.
-
-
-* Finally the frame casted is written into a text file 'TidyData2.txt'
+* The variables were renamed as follows:
+	1. 'std' replaced with 'StandardDeviation'
+	2. punctuations and whitespaces removed
+	3. 'Acc' replaced with 'Acceleration'
+	4. 'Mag' replaced with 'Magnitude'
+	5. 'Gyro' replaced with 'Gyroscope'
+	6. 'Freq' replaced with 'Frequency'
+	7. '^t' replaced with 'time'
+	8. '^f' replaced with 'FFT'
