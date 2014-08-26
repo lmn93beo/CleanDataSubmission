@@ -1,3 +1,6 @@
+
+library(reshape2)
+
 #Read all the text files into appropriate frames
 
 activity_labels <- read.table('./activity_labels.txt')[,2]
